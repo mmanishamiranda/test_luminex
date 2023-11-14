@@ -1,32 +1,26 @@
-name: workflow_01
+name: Trigger Workflows in Luminex Repo
+
 on:
-  workflow_dispatch:
-     inputs:
-      workflow_02:
-        description: 'ًWorkflow 2 which will be triggered'
-        required: true
-        default: 'workflow_02'
-
-      workflow2_github_account:
-        description: 'GitHub Account Owner'
-        required: true
-        default: ':ManishaMiranda'
-
-      workflow2_repo_github:
-        description: 'repo-name'
-        required: true
-        default: ':test' 
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  trigger-workflows:
     runs-on: ubuntu-latest
-
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Test
-        run: |
-          curl -X POST https://api.github.com/repos/:userName/:repoName/dispatches \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u ${{ secrets.ACTIONS_KEY }} \
-          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
-      - uses: actions/checkout@v3
+      - name: Create EC2 Instance
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: DISHDevEx/maria_luminex_test
+          event-type: create-ec2
+          client-payload: '{"ec2_name": "luminex-test", "ami_id": "ami-0a89b4f85b0b6f49c", "instance_type": "t3.small"}'
+
+      # - name: Trigger Workflow 2 in Repo A
+      #   uses: peter-evans/repository-dispatch@v2
+      #   with:
+      #     token: ${{ secrets.PAT_WITH_REPO_A_ACCESS }}
+      #     repository: OrgA/repoA
+      #     event-type: trigger-workflow2
+      #     client-payload: '{"input3": "value3", "input4": "value4"}'
