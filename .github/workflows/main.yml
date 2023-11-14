@@ -15,7 +15,7 @@ on:
       workflow2_repo_github:
         description: 'repo-name'
         required: true
-        default: ':maria_luminex_test' 
+        default: ':test' 
 
 jobs:
   build:
