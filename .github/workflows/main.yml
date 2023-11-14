@@ -1,21 +1,21 @@
-name: Triggering creation of EC2 instance
+name: workflow_01
 on:
   workflow_dispatch:
      inputs:
-      Create new EC2 instance:
-        description: 'ًCreation of EC2 Instance will be triggered'
+      workflow_02:
+        description: 'ًWorkflow 2 which will be triggered'
         required: true
-        default: 'Create new EC2 instance'
+        default: 'workflow_02'
 
       workflow2_github_account:
         description: 'GitHub Account Owner'
         required: true
-        default: 'ManishaMiranda'
+        default: ':userName'
 
       workflow2_repo_github:
         description: 'repo-name'
         required: true
-        default: 'test' 
+        default: ':repoName' 
 
 jobs:
   build:
